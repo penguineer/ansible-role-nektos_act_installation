@@ -1,0 +1,27 @@
+# Tasks for the nektos_act_installation Ansible role
+---
+
+# This role is designed for x86_64 systems as it downloads binaries compatible with this architecture only.
+- name: Fail if not x86_64
+  fail:
+    msg: "This role requires x86_64 architecture"
+  when: ansible_architecture != "x86_64"
+
+# Ensures the target directory exists before proceeding with the rest of the tasks.
+- include_tasks: 01_verify_target_directory.yml
+
+# Fetches the latest release from GitHub if no specific version has been defined.
+- include_tasks: 02_get_latest_release.yml
+  when: nektos_act_url is not defined or nektos_act_url | length == 0
+
+# Downloads and installs the act binary. The binary is downloaded to a temporary location first to avoid cluttering the target directory.
+- include_tasks: 03_download_and_install.yml
+
+# Verifies that the installed version of act matches the expected version. This helps catch any issues with the installation process.
+- include_tasks: 04_verify_version.yml
+  when: nektos_act_version is defined and nektos_act_version | length > 0
+
+- name: Inform about skipped version verification
+  debug:
+    msg: "Version verification was skipped because no specific version was avilable. This is likely due to the use of a direct download URI."
+  when: nektos_act_version is not defined or nektos_act_version | length == 0

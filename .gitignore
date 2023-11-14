@@ -1,0 +1,17 @@
+# .gitignore
+*.retry
+*.log
+*.pyc
+*.pyo
+__pycache__/
+*.j2c
+.ansible/
+*.swp
+*.bak
+*.orig
+*.ini
+*.cfg
+*.retry
+*.vault
+*.tar.gz
+secrets

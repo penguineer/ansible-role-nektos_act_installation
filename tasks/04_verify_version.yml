@@ -1,0 +1,14 @@
+# Verify version
+#
+# This step is skipped if a direct download URL is provided, as the version cannot be verified.
+---
+# This task is necessary to ensure that the correct version of act is installed.
+- name: Check the installed version of act
+  command: "{{ nektos_act_path }}/act --version"
+  register: act_version
+
+# This assertion helps catch any issues with the installation process, such as downloading the wrong version.
+- name: Verify that the installed version of act matches the expected version
+  assert:
+    that: "nektos_act_version[1:] in act_version.stdout"
+    fail_msg: "Installed version of act does not match the expected version"
