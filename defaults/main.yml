@@ -1,0 +1,10 @@
+# Defaults for the nektos_act_installation Ansible role
+---
+# Prefix to the installation target. This is where Act will be installed.
+nektos_act_path: "/usr/local/bin"
+
+# Fix the release version. Leave this variable empty to retrieve the latest version of Act.
+# nektos_act_version: v0.0.0
+
+# URL to the Act archive. Leave this variable empty for the default URL.
+# nektos_act_url:
