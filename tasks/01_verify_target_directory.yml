@@ -16,6 +16,7 @@
 - name: Check if the target directory {{ nektos_act_path }} is in the PATH
   shell: echo $PATH
   register: path
+  changed_when: nektos_act_path not in path.stdout.split(':')
 
 # Could indicate a potential issue with script execution.
 - name: Warn if the target directory {{ nektos_act_path }} is not in the PATH

@@ -3,7 +3,7 @@
     # The binary is downloaded to a temporary location to avoid cluttering the target directory with a potentially large file.
     - name: Download and extract the act binary from the latest release to /tmp
       unarchive:
-        src: "{{ nektos_act_url is defined and nektos_act_url | length > 0 ? nektos_act_url : 'https://github.com/nektos/act/releases/download/' + nektos_act_version + '/act_Linux_x86_64.tar.gz' }}"
+        src: "{{ nektos_act_url if nektos_act_url is defined and nektos_act_url | length > 0 else 'https://github.com/nektos/act/releases/download/' + nektos_act_version + '/act_Linux_x86_64.tar.gz' }}"
         dest: "/tmp"
         remote_src: yes
 
@@ -13,6 +13,11 @@
         src: "/tmp/act"
         dest: "{{ nektos_act_path }}"
         remote_src: yes
+
+    - name: Set executable permissions on the act binary
+      file:
+        path: "{{ nektos_act_path }}/act"
+        mode: '0755'
 
   rescue:
     # This task provides a more specific error message to aid in troubleshooting.
