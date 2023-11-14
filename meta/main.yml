@@ -1,0 +1,33 @@
+galaxy_info:
+  role_name: nektos_act_installation
+  namespace: penguineer
+  author: Stefan Haun
+  description: This Ansible role installs 'act', a tool for running GitHub Actions locally. Intended for x86_64 systems.
+
+  license: MIT
+
+  min_ansible_version: "2.11"
+
+  platforms:
+  - name: Ubuntu
+    versions:
+    - all
+  - name: Debian
+    versions:
+    - all
+  - name: CentOS
+    versions:
+    - all
+  - name: RedHat
+    versions:
+    - all
+  - name: Fedora
+    versions:
+    - all
+
+  galaxy_tags:
+  - development
+  - github
+  - ci
+
+dependencies: []
