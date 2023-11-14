@@ -1,0 +1,18 @@
+# Get the latest release if it has not been defined
+#
+# This step is skipped if a direct download URL is provided.
+---
+- name: Get the latest version of act from GitHub releases if not set
+  uri:
+    url: https://api.github.com/repos/nektos/act/releases/latest
+    return_content: yes
+    headers:
+      Accept: "application/vnd.github.v3+json"
+  register: github_response
+  when: nektos_act_version is not defined or nektos_act_version | length == 0
+
+- name: Set act version to latest from GitHub if not already set
+  set_fact:
+    nektos_act_version: "{{ github_response.json.tag_name }}"
+  when: github_response is defined and 'json' in github_response
+

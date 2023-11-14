@@ -1,0 +1,21 @@
+---
+- block:
+    # The binary is downloaded to a temporary location to avoid cluttering the target directory with a potentially large file.
+    - name: Download and extract the act binary from the latest release to /tmp
+      unarchive:
+        src: "{{ nektos_act_url is defined and nektos_act_url | length > 0 ? nektos_act_url : 'https://github.com/nektos/act/releases/download/' + nektos_act_version + '/act_Linux_x86_64.tar.gz' }}"
+        dest: "/tmp"
+        remote_src: yes
+
+    # The binary is moved instead of copied to avoid leaving behind a potentially large file in the temporary directory.
+    - name: Move the act binary from /tmp to the target directory {{ nektos_act_path }}
+      copy:
+        src: "/tmp/act"
+        dest: "{{ nektos_act_path }}"
+        remote_src: yes
+
+  rescue:
+    # This task provides a more specific error message to aid in troubleshooting.
+    - name: Download or install failed
+      fail:
+        msg: "Failed to download or install act. Please ensure /tmp is writable and the target directory {{ nektos_act_path }} is correct."

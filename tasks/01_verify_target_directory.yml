@@ -1,0 +1,24 @@
+# Verify target directory
+---
+# Necessary because subsequent tasks rely on this directory.
+- name: Check if the target directory {{ nektos_act_path }} exists
+  stat:
+    path: "{{ nektos_act_path }}"
+  register: directory
+
+# Prevents errors in subsequent tasks.
+- name: Fail if the target directory {{ nektos_act_path }} does not exist
+  assert:
+    that: directory.stat.exists and directory.stat.isdir
+    fail_msg: "The target directory {{ nektos_act_path }} does not exist"
+
+# Important for scripts that rely on executables in this directory.
+- name: Check if the target directory {{ nektos_act_path }} is in the PATH
+  shell: echo $PATH
+  register: path
+
+# Could indicate a potential issue with script execution.
+- name: Warn if the target directory {{ nektos_act_path }} is not in the PATH
+  debug:
+    msg: "⚠️ The target directory {{ nektos_act_path }} is NOT in the PATH ⚠️"
+  when: nektos_act_path not in path.stdout.split(':')
