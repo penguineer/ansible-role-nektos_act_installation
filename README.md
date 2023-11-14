@@ -29,9 +29,11 @@ To fix the release, set:
 
 Add to your `requirements.yml`:
 ```yml
-- src: penguineer.nektos_act_installation
-  version: version-tag
+- src: https://github.com/penguineer/ansible-role-nektos_act_installation
+  version: …
 ```
+Ansible Galaxy is currently not accessible, so the role must be downloaded from GitHub directly.
+
 
 ### Include
 
@@ -44,7 +46,7 @@ vars:
   nektos_act_url: …
 
 roles:
-  - role: penguineer.nektos_act_installation
+  - role: ansible-role-nektos_act_installation
 ```
 
 
@@ -54,7 +56,7 @@ as task:
 tasks:
   - name: Set up Act
     include_role:
-      name: penguineer.nektos_act_installation
+      name: ansible-role-nektos_act_installation
     vars:
       nektos_act_path_prefix: …
       nektos_act_version: …
