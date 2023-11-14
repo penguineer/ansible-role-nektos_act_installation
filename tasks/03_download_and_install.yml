@@ -14,6 +14,11 @@
         dest: "{{ nektos_act_path }}"
         remote_src: yes
 
+    - name: Set executable permissions on the act binary
+      file:
+        path: "{{ nektos_act_path }}/act"
+        mode: '0755'
+
   rescue:
     # This task provides a more specific error message to aid in troubleshooting.
     - name: Download or install failed
