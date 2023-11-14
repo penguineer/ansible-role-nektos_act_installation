@@ -6,6 +6,7 @@
 - name: Check the installed version of act
   command: "{{ nektos_act_path }}/act --version"
   register: act_version
+  changed_when: False
 
 # This assertion helps catch any issues with the installation process, such as downloading the wrong version.
 - name: Verify that the installed version of act matches the expected version
